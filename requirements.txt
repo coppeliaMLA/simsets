@@ -1,0 +1,6 @@
+gunicorn
+flask
+pandas
+numpy
+random
+faker
