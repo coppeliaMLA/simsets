@@ -1,1 +1,1 @@
-web: gunicorn data_api:app
+web: gunicorn simset/data_api:app
