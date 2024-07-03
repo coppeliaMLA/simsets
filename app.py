@@ -93,6 +93,6 @@ def download_time_series():
 
     # Create a temporary CSV file and serve it for download
     with open("observed.csv", "w") as csv_file:
-        csv_data.to_csv(csv_file, index=False)
+        csv_data.to_csv(csv_file, index=True)
 
     return send_file("observed.csv", as_attachment=True, download_name="observed.csv")
