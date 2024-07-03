@@ -1,5 +1,6 @@
-gunicorn
 flask
+gunicorn
+flask-swagger-ui
+flasgger
 pandas
 faker
-connexion[flask]
