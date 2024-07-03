@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, send_file
 from flask_swagger_ui import get_swaggerui_blueprint
 from flasgger import Swagger
 from movies import read_movies
@@ -45,17 +45,16 @@ def get_movies():
 
 @app.route("/timeseries", methods=["GET"])
 def get_timeseries():
-    intercept = ts.Intercept("intercept", (500, 50))
-    trend = ts.Trend("trend", (0, 500), "quadratic")
-    seasonality = ts.Seasonality("seasonality", (0, 1), 1)
-    event_1 = ts.Event("event_1", 1, (20, 5), 15.0, (0.5, 0.5))
-    event_2 = ts.Event("event_2", 2, (30, 5), 3.5, (5, 1))
-    event_3 = ts.Event("event_3", 2, (10, 1), 40.5, (10, 1))
-    holidays = ts.Holidays("holidays", (0, 10))
-    noise = ts.Noise("noise", (9, 0.5), 1, 1)
-    sim_ts = ts.SimulatedTimeSeries(
-        [intercept, trend, seasonality, holidays, event_1, event_2, event_3, noise]
-    )
-    contributions, observed, latex = sim_ts.generate_time_series(1095)
-    observed_json = observed.to_json(orient="records")
-    return {"observed": observed_json, "latex": latex}
+    output_type = request.args.get("output_type", default="json")
+    num_time_periods = request.args.get("num_time_periods", default=365, type=int)
+
+    contributions, observed, latex = ts.simulate_all_params(num_time_periods)
+
+    print(f"Output type: {output_type}")
+
+    if output_type == "json":
+        observed_json = observed.to_json(orient="records")
+        return {"observed": observed_json, "latex": latex}
+    else:
+        observed.to_csv("observed.csv", index=False)
+        return send_file("observed.csv")

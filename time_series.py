@@ -296,10 +296,35 @@ class SimulatedTimeSeries:
 
         return contributions_df, observed_df, latex
 
-    # Other explanatory variable types
 
-    # Block events (with carry over effects/diminishing returns)
+def simulate_all_params(num_time_periods):
+    intercept = Intercept("intercept", (500, 50))
+    # Randomly pick a type of trend from slope, quadratic, or log
+    trend_type = np.random.choice(["slope", "quadratic", "log"])
 
-    # Point events (with carry over effects/diminishing returns)
+    if trend_type == "slope":
+        trend = Trend("trend", (0, 500), "slope")
+    elif trend_type == "quadratic":
+        trend = Trend("trend", (0, 500), "quadratic")
+    else:
+        trend = Trend("trend", (0, 500), "log")
 
-    # Noise (with autocorrelation and heteroskedasticity)
+    seasonality = Seasonality("seasonality", (0, 1), 365)
+
+    # Randomly pick a number of events between 0 and 10
+    num_events = np.random.randint(0, 10)
+    events = []
+    for i in range(num_events):
+        event = Event(f"event_{i}", i, (20, 5), 15.0, (0.5, 0.5))
+        events.append(event)
+
+    holidays = Holidays("holidays", (0, 10))
+    noise = Noise("noise", (9, 0.5), 1, 1)
+
+    sim_ts = SimulatedTimeSeries(
+        [intercept, trend, seasonality, holidays, *events, noise]
+    )
+
+    contributions, observed, latex = sim_ts.generate_time_series(num_time_periods)
+
+    return contributions, observed, latex
