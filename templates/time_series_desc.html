@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Layout</title>
+    <style>
+        body {
+            background-color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        .pdf-container {
+            background-color: white;
+            width: 8.5in;
+            min-height: 11in;
+            padding: 1in;
+            margin: 20px auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .pdf-content {
+            font-size: 12pt;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #000;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        @media print {
+            body {
+                background-color: white;
+            }
+
+            .pdf-container {
+                box-shadow: none;
+                margin: 0;
+                padding: 0;
+            }
+        }
+
+        mjx-container[jax="SVG"][display="true"] {
+            text-align: left !important;
+        }
+    </style>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\(', '\)']],
+                displayAlign: 'left', // Align equations to the left
+                displayIndent: '2em' // Optional: Adjust this value to control the indent from the left margin
+            },
+            svg: {
+                fontCache: 'global'
+            },
+            startup: {
+                pageReady: () => {
+                    return MathJax.startup.defaultPageReady().then(() => {
+                        document.querySelectorAll('script[type="math/tex"]').forEach((node) => {
+                            const math = MathJax.tex2svg(node.textContent, { display: true });
+                            node.parentNode.replaceChild(math, node);
+                        });
+                    });
+                }
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+
+<body>
+    <div class="pdf-container">
+        <div class="pdf-content">
+            <h1>Some simulated time series data</h1>
+
+            <p>We have simulated some time series data for you. The data set, which can be downloaded from <a
+                    href="/download_time_series">here</a> consists of an output time series (y) and a set of explanatory
+                time series. It looks like this:</p>
+
+            <img src="{{ plot_url }}" alt="Observed Data Plot">
+
+            <p>With simulated data we know the underlying process that generated that data. This makes it very useful
+                for tasks where we need to know the right answer. This includes: </p>
+            <ul>
+                <li>Testing forecasting and prediction methods</li>
+                <li>Testing methods which try to explain a time series using other variables</li>
+                <li>Testing the claims of service providers who say they can do either of the above</li>
+                <li>Creating interview questions</li>
+                <li>Creating examples for teaching</li>
+            </ul>
+
+            <h3>The data generating function</h3>
+
+            <p>The data generating function for the simulated data is given by the following equation:</p>
+
+            {{model_latex | safe }}
+
+            <p>You can use this information to evaluate the results in the use cases above.</p>
+        </div>
+    </div>
+</body>
+
+</html>

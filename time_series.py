@@ -229,8 +229,9 @@ class Event(ExplanatoryVariable):
             range(length), size=self.num_events, replace=False
         )
 
-        # Set the events to 1
-        events[event_periods] = np.random.beta(5, 6, 1).item()
+        # Set the events to a random beta distribution
+        for e in event_periods:
+            events[e] = np.random.beta(5, 6, 1).item()
 
         carry_over_effect = np.zeros(length)
         for i in range(length):
@@ -272,11 +273,13 @@ class SimulatedTimeSeries:
         latex_model_desc = ""
         latex_context = ""
 
-        for e in self.explanatory_variables:
+        for i, e in enumerate(self.explanatory_variables):
             contributions_df[e.name] = e.generate(num_time_periods)
             if e.observed is not None:
                 observed_df[e.name] = e.observed
             latex_model_desc += " " + e.describe()["latex"]
+            if (i + 1) % 7 == 0:
+                latex_model_desc += "$ \n\n $"
             lc = e.describe()["latex_context"]
             if len(lc) > 0:
                 latex_context += "\n\n $" + lc + "$ "
@@ -292,7 +295,7 @@ class SimulatedTimeSeries:
         observed_df.set_index("date", inplace=True)
 
         # Create latex description
-        latex = f"$y_t = {latex_model_desc}$\n\n Where: \n\n $t = 0, 1, 2 \\ldots, n$ {latex_context}"
+        latex = f"$y_t = {latex_model_desc}$\n\n Where: \n\n $t = 0, 1, 2 \\ldots, n$ \n\n $s, h, v_i$ are the seasonality, holiday and events variables in the generated data set. {latex_context}"
 
         return contributions_df, observed_df, latex
 
