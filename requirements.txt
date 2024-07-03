@@ -5,4 +5,4 @@ flasgger
 pandas
 faker
 markdown
-mdx_math
+python-markdown-math
