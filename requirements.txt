@@ -5,4 +5,5 @@ flasgger
 pandas
 faker
 markdown
+matplotlib
 python-markdown-math
