@@ -306,11 +306,11 @@ def simulate_all_params(num_time_periods):
     trend_type = np.random.choice(["slope", "quadratic", "log"])
 
     if trend_type == "slope":
-        trend = Trend("trend", (0, 500), "slope")
+        trend = Trend("trend", (0, 50), "slope")
     elif trend_type == "quadratic":
-        trend = Trend("trend", (0, 500), "quadratic")
+        trend = Trend("trend", (0, 50), "quadratic")
     else:
-        trend = Trend("trend", (0, 500), "log")
+        trend = Trend("trend", (0, 50), "log")
 
     seasonality = Seasonality("seasonality", (0, 1), 365)
 
