@@ -61,8 +61,8 @@ def get_timeseries():
     contributions, observed, latex = ts.simulate_all_params(num_time_periods)
 
     if output_type == "json":
-        observed_json = observed.to_json(orient="records", index=True)
-        contributions_json = contributions.to_json(orient="records")
+        observed_json = observed.to_json(orient="records", date_format="iso")
+        contributions_json = contributions.to_json(orient="records", date_format="iso")
         return {
             "observed": observed_json,
             "contributions": contributions_json,
@@ -78,7 +78,7 @@ def get_timeseries():
 
         # Use matplotlib to generate a plot of the observed data as a png
         plt.figure(figsize=(8, 3))
-        _ = observed["y"].plot()
+        _ = observed.set_index("date")["y"].plot()
         plt.savefig("static/observed_plot.png")  # Save the plot in the static directory
         plt.close()  # Close the plot to free up memory
 
@@ -98,6 +98,6 @@ def download_time_series():
 
     # Create a temporary CSV file and serve it for download
     with open("observed.csv", "w") as csv_file:
-        csv_data.to_csv(csv_file, index=True)
+        csv_data.to_csv(csv_file, index=False)
 
     return send_file("observed.csv", as_attachment=True, download_name="observed.csv")
