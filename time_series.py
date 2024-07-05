@@ -288,11 +288,14 @@ class SimulatedTimeSeries:
         contributions_df["y"] = contributions_df.sum(axis=1)
 
         observed_df["y"] = contributions_df["y"]
-
         observed_df["date"] = pd.date_range(start="1/1/2018", periods=num_time_periods)
+        contributions_df["date"] = pd.date_range(
+            start="1/1/2018", periods=num_time_periods
+        )
 
         # Set date as the index
         observed_df.set_index("date", inplace=True)
+        contributions_df.set_index("date", inplace=True)
 
         # Create latex description
         latex = f"$y_t = {latex_model_desc}$\n\n Where: \n\n $t = 0, 1, 2 \\ldots, n$ \n\n and $s, h, v_i$ are the seasonality, holiday and events variables in the generated data set. The effect of the events include a carry over effect and are modelled recursively as follows: {latex_context}\n\n The $e_i$ correspond to the events variables in the data set."

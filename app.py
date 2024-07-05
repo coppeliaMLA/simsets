@@ -61,7 +61,7 @@ def get_timeseries():
     contributions, observed, latex = ts.simulate_all_params(num_time_periods)
 
     if output_type == "json":
-        observed_json = observed.to_json(orient="records")
+        observed_json = observed.to_json(orient="records", index=True)
         contributions_json = contributions.to_json(orient="records")
         return {
             "observed": observed_json,
