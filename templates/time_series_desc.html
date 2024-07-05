@@ -19,8 +19,8 @@
 
         .pdf-container {
             background-color: white;
-            width: 8.5in;
-            min-height: 11in;
+            width: 8.3in;
+            min-height: 11.7in;
             padding: 1in;
             margin: 20px auto;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -88,16 +88,16 @@
 <body>
     <div class="pdf-container">
         <div class="pdf-content">
-            <h1>Some simulated time series data</h1>
+            <h1>Simsets: explainable time series data</h1>
 
             <p>We have simulated some time series data for you. The data set, which can be downloaded from <a
                     href="/download_time_series">here</a> consists of an output time series (y) and a set of explanatory
-                time series. It looks like this:</p>
+                time series. Here is a time series plot of (y):</p>
 
             <img src="{{ plot_url }}" alt="Observed Data Plot">
 
             <p>With simulated data we know the underlying process that generated that data. This makes it very useful
-                for tasks where we need to know the right answer. This includes: </p>
+                for tasks where we need to know the right answer. These include: </p>
             <ul>
                 <li>Testing forecasting and prediction methods</li>
                 <li>Testing methods which try to explain a time series using other variables</li>
@@ -112,7 +112,12 @@
 
             {{model_latex | safe }}
 
-            <p>You can use this information to evaluate the results in the use cases above.</p>
+            <p>You can use this information to evaluate the results in the use cases above. For example, you might
+                suppose that the (y) are sales, and one of the events is advertising. You could then attempt to
+                recover the true effect of the advertising using a particular modelling or algorithmic approach. Note,
+                if you include the parameter
+            <pre>output_type=json</pre> in your call to the API then the endpoint will return both the observed data
+            and the true contributions for each variable.</p>
         </div>
     </div>
 </body>

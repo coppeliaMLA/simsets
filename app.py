@@ -62,7 +62,12 @@ def get_timeseries():
 
     if output_type == "json":
         observed_json = observed.to_json(orient="records")
-        return {"observed": observed_json, "latex": latex}
+        contributions_json = contributions.to_json(orient="records")
+        return {
+            "observed": observed_json,
+            "contributions": contributions_json,
+            "latex": latex,
+        }
     else:
         csv_data = observed
         md = markdown.Markdown(

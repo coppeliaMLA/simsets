@@ -278,7 +278,7 @@ class SimulatedTimeSeries:
             if e.observed is not None:
                 observed_df[e.name] = e.observed
             latex_model_desc += " " + e.describe()["latex"]
-            if (i + 1) % 7 == 0:
+            if (i + 1) % 7 == 0 and i != len(self.explanatory_variables) - 1:
                 latex_model_desc += "$ \n\n $"
             lc = e.describe()["latex_context"]
             if len(lc) > 0:
@@ -295,7 +295,7 @@ class SimulatedTimeSeries:
         observed_df.set_index("date", inplace=True)
 
         # Create latex description
-        latex = f"$y_t = {latex_model_desc}$\n\n Where: \n\n $t = 0, 1, 2 \\ldots, n$ \n\n $s, h, v_i$ are the seasonality, holiday and events variables in the generated data set. {latex_context}"
+        latex = f"$y_t = {latex_model_desc}$\n\n Where: \n\n $t = 0, 1, 2 \\ldots, n$ \n\n and $s, h, v_i$ are the seasonality, holiday and events variables in the generated data set. The effect of the events include a carry over effect and are modelled recursively as follows: {latex_context}\n\n The $e_i$ correspond to the events variables in the data set."
 
         return contributions_df, observed_df, latex
 
