@@ -1,7 +1,6 @@
 from flask import Flask, request, send_file, render_template, url_for
 from flask_swagger_ui import get_swaggerui_blueprint
 from flasgger import Swagger
-from movies import read_movies
 from simflix import get_simflix_viewing_data
 import pandas as pd
 import time_series as ts
