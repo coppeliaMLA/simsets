@@ -2,7 +2,7 @@ from flask import Flask, request, send_file, render_template, url_for
 from flask_swagger_ui import get_swaggerui_blueprint
 from flasgger import Swagger
 from movies import read_movies
-from video_games import read_video_games
+from simflix import get_simflix_viewing_data
 import pandas as pd
 import time_series as ts
 import markdown
@@ -101,3 +101,43 @@ def download_time_series():
         csv_data.to_csv(csv_file, index=False)
 
     return send_file("observed.csv", as_attachment=True, download_name="observed.csv")
+
+
+@app.route("/simflix", methods=["GET"])
+def get_simflix():
+    global csv_data
+    output_type = request.args.get("output_type", default="json")
+    num_viewers = request.args.get("num_viewers", default=365, type=int)
+    num_movies = request.args.get("num_movies", default=100, type=int)
+
+    viewing_df, corr_matrix, means, cov_matrix, model_latex = get_simflix_viewing_data(
+        num_viewers, num_movies
+    )
+
+    if output_type == "json":
+        viewing_json = viewing_df.to_json(orient="split", index=False)
+        return {
+            "viewing": viewing_json,
+            "correlation_matrix": pd.DataFrame(corr_matrix).to_json(),
+            "parameter_means": means.tolist(),
+        }
+    else:
+
+        csv_data = viewing_df
+        return render_template(
+            "simflix_desc.html",
+            model_latex=model_latex,
+        )
+
+
+@app.route("/download_simflix", methods=["GET"])
+def download_simflix():
+    global csv_data
+    if csv_data is None:
+        return "No data to download."
+
+    # Create a temporary CSV file and serve it for download
+    with open("simflix.csv", "w") as csv_file:
+        csv_data.to_csv(csv_file, index=False)
+
+    return send_file("simflix.csv", as_attachment=True, download_name="simflix.csv")
