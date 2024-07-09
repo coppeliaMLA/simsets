@@ -19,4 +19,4 @@ Currently the following endpoints are available:
 - [Explainable time series data](http://www.simsets.co.uk/timeseries)
 - [Simflix](http://www.simsets.co.uk/simflix) (Simulated viewing data for video-on-demand)
 
-Some notebooks demonstrating use of the endpoints are here and here
+Some notebooks demonstrating use of the endpoints are [here](notebooks/timeseries_demo) and [here](notebooks/simflix_demo)
