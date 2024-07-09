@@ -16,7 +16,7 @@ Our API saves you the trouble of producing this data. It gives you the data and 
 
 Currently the following endpoints are available:
 
-- [Explainable time series data](www.simsets.co.uk/timeseries)
-- [Simflix](www.simsets.co.uk/simset) (Simulated viewing data for video-on-demand)
+- [Explainable time series data](https://www.simsets.co.uk/timeseries)
+- [Simflix](https://www.simsets.co.uk/simset) (Simulated viewing data for video-on-demand)
 
 Some notebooks demonstrating use of the endpoints are here and here
