@@ -34,12 +34,7 @@ csv_data = None
 
 @app.route("/")
 def index():
-    return "Hello World!"
-
-
-@app.route("/test", methods=["GET"])
-def say_hi():
-    return "Hi, I'm test.py"
+    return "The simsets API is running! Use an endpoint to obtain a simulated data set."
 
 
 @app.route("/vod_movies", methods=["GET"])
@@ -55,7 +50,7 @@ def get_movies():
 @app.route("/timeseries", methods=["GET"])
 def get_timeseries():
     global csv_data
-    output_type = request.args.get("output_type", default="json")
+    output_type = request.args.get("output_type", default="csv")
     num_time_periods = request.args.get("num_time_periods", default=365, type=int)
 
     contributions, observed, latex = ts.simulate_all_params(num_time_periods)
@@ -106,7 +101,7 @@ def download_time_series():
 @app.route("/simflix", methods=["GET"])
 def get_simflix():
     global csv_data
-    output_type = request.args.get("output_type", default="json")
+    output_type = request.args.get("output_type", default="csv")
     num_viewers = request.args.get("num_viewers", default=365, type=int)
     num_movies = request.args.get("num_movies", default=100, type=int)
 
@@ -120,6 +115,8 @@ def get_simflix():
             "viewing": viewing_json,
             "correlation_matrix": pd.DataFrame(corr_matrix).to_json(),
             "parameter_means": means.tolist(),
+            "covariance_matrix": cov_matrix.tolist(),
+            "latex": model_latex,
         }
     else:
 

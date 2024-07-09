@@ -199,7 +199,7 @@ def get_simflix_viewing_data(num_viewers, num_movies):
 
     <br><br>
 
-    $\\Sigma = \\begin{{bmatrix}}
+    $P = \\begin{{bmatrix}}
     {cor_matrix_latex_desc}
     \\end{{bmatrix}}$ 
 

@@ -102,27 +102,20 @@
 
             {{model_latex | safe }}
 
-            <p>We have simulated some time series data for you. The data set, which can be downloaded from <a
-                    href="/download_simflix">here</a> consists of an output time series (y) and a set of explanatory
-                time series. Here is a time series plot of (y):</p>
-
+            <h3>Use cases</h3>
             <p>With simulated data we know the underlying process that generated that data. This makes it very useful
-                for tasks where we need to know the right answer. These include: </p>
+                for tasks where we need to know the right answer. For simsets data these include </p>
             <ul>
-                <li>Testing forecasting and prediction methods</li>
-                <li>Testing methods which try to explain a time series using other variables</li>
-                <li>Testing the claims of service providers who say they can do either of the above</li>
+                <li>Testing methods for recovering latent variables - in this case the genres</li>
+                <li>Testing recommendation algorithms</li>
+                <li>Testing multivariate data visualistion techniques</li>
                 <li>Creating interview questions</li>
                 <li>Creating examples for teaching</li>
             </ul>
 
-            <p>You can use this information to evaluate the results in the use cases above. For example, you might
-                suppose that the (y) are sales, and one of the events is advertising. You could then attempt to
-                recover the true effect of the advertising using a particular modelling or algorithmic approach.
-
-                Note,if you include the parameter
-            <pre>output_type=json</pre> in your call to the API then the endpoint will return both the observed data
-            and the true contributions for each variable.</p>
+            <p>Note, if you include the parameter <em>output_type=json</em> in your call to the API then the
+                endpoint will return the viewing data, the
+                $\beta$, $\Sigma$, $P$ and some latex for describing the generating model.</p>
         </div>
     </div>
 </body>
